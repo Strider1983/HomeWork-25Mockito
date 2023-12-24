@@ -1,9 +1,7 @@
 package ru.skypro.mockito.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.websocket.server.PathParam;
+import org.springframework.web.bind.annotation.*;
 import ru.skypro.mockito.model.Employee;
 import ru.skypro.mockito.services.DepartmentService;
 
@@ -20,20 +18,29 @@ public class DepartmentController {
     }
 
 
-    @GetMapping("max-salary")
-    public Employee getEmployeeWithMaxSalary(@RequestParam("departmentId") Integer departmentId) {
-        return departmentService.getEmployeeWithMaxSalary(departmentId);
+    @GetMapping("{id}/salary/max")
+    public Integer getEmployeeWithMaxSalary(@PathVariable("id") Integer id) {
+        return departmentService.getEmployeeWithMaxSalary(id).getSalary();
     }
-    @GetMapping("min-salary")
-    public Employee getEmployeeWithMinSalary(@RequestParam("departmentId") Integer departmentId) {
-        return departmentService.getEmployeeWithMinSalary(departmentId);
+    @GetMapping("{id}/salary/min")
+    public Integer getEmployeeWithMinSalary(@PathVariable("id") Integer id) {
+        return departmentService.getEmployeeWithMinSalary(id).getSalary();
     }
     @GetMapping(value = "all", params = "departmentId")
     public List<Employee> getAllEmployeesByDepartment(@RequestParam("departmentId") Integer departmentId) {
         return departmentService.getAllEmployeesByDepartment(departmentId);
     }
-    @GetMapping("all")
+    @GetMapping("employees")
     public Map<Integer, List<Employee>> getAllEmployees() {
         return departmentService.getAllEmployees();
     }
+    @GetMapping("{id}/salary/sum")
+    public Integer getDepartmentSalarySum(@PathVariable("id") Integer id) {
+        return departmentService.getDepartmentSalarySum(id);
+    }
+    @GetMapping("{id}/employees")
+    public List<Employee> getEpmloyees(@PathVariable("id") Integer id) {
+        return departmentService.getEmployees(id);
+    }
+
 }

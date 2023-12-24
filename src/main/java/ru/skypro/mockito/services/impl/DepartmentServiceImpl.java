@@ -19,9 +19,24 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Employee> getEmployees(Integer departmentId) {
+        return employeeService.getAll().values().stream()
+                .filter(employee -> departmentId.equals(employee.getDepartment()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getDepartmentSalarySum(Integer departmentId) {
+        return employeeService.getAll().values().stream()
+                .filter(employee -> departmentId.equals(employee.getDepartment()))
+                .map(Employee::getSalary)
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+    @Override
     public Employee getEmployeeWithMaxSalary(Integer departmentId) {
-        return employeeService.getAll().values()
-                .stream()
+        return employeeService.getAll().values().stream()
                 .filter(employee -> departmentId.equals(employee.getDepartment()))
                 .max(Comparator.comparingInt(Employee::getSalary))
                 .orElse(null);
@@ -29,8 +44,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Employee getEmployeeWithMinSalary(Integer departmentId) {
-        return employeeService.getAll().values()
-                .stream()
+        return employeeService.getAll().values().stream()
                 .filter(employee -> departmentId.equals(employee.getDepartment()))
                 .min(Comparator.comparingInt(Employee::getSalary))
                 .orElse(null);
