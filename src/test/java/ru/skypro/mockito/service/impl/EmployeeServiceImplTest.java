@@ -35,21 +35,13 @@ public class EmployeeServiceImplTest {
     }
     @Test
     public void shoudEmployeeBeRemoved() {
-        List<Employee> employees = new ArrayList<>() {{
-                add(new Employee("Ivan", "Ivanov", 150000, 1));
-                add(new Employee("Petr", "Vasuilev", 260000, 1));
-                add(new Employee("Pavel", "Sidorov", 85000, 3));
-                add(new Employee("Fedor", "Petrov", 260000, 3));
-            }};
-        employeeService.remove();
+        Employee employee = new Employee("Petr", "Vekov", 98000, 8);
+        employeeService.add(
+                employee.getFirstName(), employee.getLastName(), employee.getSalary(), employee.getDepartment());
 
-        List<Employee> expectedEmployees = new ArrayList<>() {{
-            add(new Employee("Ivan", "Ivanov", 150000, 1));
-            add(new Employee("Pavel", "Sidorov", 85000, 3));
-            add(new Employee("Fedor", "Petrov", 260000, 3));
-        }};
-        Assertions.assertEquals(employees, expectedEmployees);
+        Employee actualEmployee = employeeService.remove(employee.getFirstName(), employee.getLastName());
 
+        Assertions.assertEquals(employee, actualEmployee);
     }
 
 
